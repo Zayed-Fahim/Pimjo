@@ -1,15 +1,21 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import app from "./app";
+import databaseConnection from "./config/db.config";
+import swaggerDocs from "./utils/swagger";
+import envConfig from "./config/env.config";
 
-dotenv.config();
+const startServer = async () => {
+  try {
+    await databaseConnection();
+    console.log("[server]: Server is up and running.");
+    console.log("[database]: Successfully connected to MongoDB.");
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
+    app.listen(envConfig.port, () => {
+      swaggerDocs(app, envConfig.port);
+    });
+  } catch (error: any) {
+    console.error(`[server]: Error occurred - ${error.message}`);
+    process.exit(1);
+  }
+};
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+startServer();
