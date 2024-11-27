@@ -4,9 +4,11 @@ import Joi from "joi";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormField, PasswordFormField } from "@/components/molecules";
-import { Button, Link, Message } from "@/components/atoms";
+import { Button, Link, Loader, Message } from "@/components/atoms";
 import { nameRegex, passwordRegex } from "@/constant/validation";
 import { ArrowRight } from "@/constant";
+import { useRouter } from "next/navigation";
+import fetcher from "@/utils/fetcher";
 
 type FormInputProps = {
   email: string;
@@ -48,9 +50,18 @@ const schema = Joi.object({
 });
 
 const SignupForm = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
   const [isConfirmPasswordShown, setIsConfirmPasswordShown] =
     useState<boolean>(false);
+  const [submissionStatus, setSubmissionStatus] = useState<{
+    type: "success" | "error" | "default";
+    message: string;
+  }>({
+    type: "default",
+    message: "",
+  });
 
   const {
     register,
@@ -67,9 +78,47 @@ const SignupForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormInputProps> = (data) => {
-    console.log(data);
-    reset();
+  const onSubmit: SubmitHandler<FormInputProps> = async (data) => {
+    try {
+      setIsLoading(true);
+      const result = await fetcher<{
+        success: boolean;
+        message: string;
+        data: {
+          _id: string;
+          username: string;
+          email: string;
+          accessToken: string;
+        };
+      }>({
+        url: "http://localhost:3001/api/v1/auth/register",
+        method: "POST",
+        data,
+      });
+      setSubmissionStatus({
+        type: "success",
+        message: result.data.message,
+      });
+      setIsLoading(false);
+      reset();
+      setTimeout(() => router.push("/login"), 1000);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error:", error.message);
+        setSubmissionStatus({
+          type: "error",
+          message: error.message,
+        });
+        setIsLoading(false);
+      } else {
+        console.error("Unexpected error:", error);
+        setSubmissionStatus({
+          type: "error",
+          message: "An unexpected error occurred.",
+        });
+        setIsLoading(false);
+      }
+    }
   };
 
   const handleShowPassword = () => {
@@ -155,9 +204,19 @@ const SignupForm = () => {
       </div>
 
       <div className="flex items-center justify-between gap-x-2">
-        <div className="flex items-center gap-x-2 group">
-          <p>Already have an account?</p>
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 duration-300" />
+        <div className="flex flex-col items-start gap-y-2">
+          {submissionStatus.type !== "default" && (
+            <>
+              <Message
+                type={submissionStatus?.type}
+                text={submissionStatus?.message}
+              />
+            </>
+          )}
+          <div className="flex items-center gap-x-2 group">
+            <p>Already have an account?</p>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 duration-300" />
+          </div>
         </div>
         <div className="flex gap-x-3">
           <Link
@@ -170,7 +229,10 @@ const SignupForm = () => {
             className="font-semibold hover:bg-black hover:text-white hover:ring hover:ring-white transition duration-300 inline-flex items-center justify-center rounded-md text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black h-10 px-4 py-2"
             type="submit"
           >
-            Register
+            <div className="flex justify-center items-center gap-x-5">
+              <p>Register</p>
+              {isLoading && <Loader />}
+            </div>
           </Button>
         </div>
       </div>

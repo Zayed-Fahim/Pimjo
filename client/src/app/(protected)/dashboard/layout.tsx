@@ -1,5 +1,5 @@
-import "../../globals.css";
 import Providers from "@/providers";
+import "../../globals.css";
 import localFont from "next/font/local";
 
 const geistSans = localFont({

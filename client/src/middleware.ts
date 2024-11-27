@@ -24,5 +24,5 @@ export default auth(async (req) => {
 });
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/dashboard/:path*,", "/login"],
 };

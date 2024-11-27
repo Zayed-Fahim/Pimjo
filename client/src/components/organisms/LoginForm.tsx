@@ -71,7 +71,6 @@ const LoginForm = () => {
         data,
       });
       const isAuthenticated = await credentialsLogin(result?.data?.data);
-      console.log({ isAuthenticated });
       if (!!isAuthenticated?.error) {
         setSubmissionStatus({
           type: "error",

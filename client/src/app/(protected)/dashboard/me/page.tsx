@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
   title: "Dashboard | Task Nest",
@@ -8,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const Dashboard = () => {
-  return <h1>this is dashboard</h1>;
+  return <h1>Dashboard</h1>;
 };
 
 export default Dashboard;
