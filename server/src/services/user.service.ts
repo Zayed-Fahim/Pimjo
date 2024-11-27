@@ -1,4 +1,7 @@
+import envConfig from "../config/env.config";
+import generateAccessToken from "../helpers/generateJWT";
 import passwordHasher from "../helpers/generatePasswordHash";
+import passwordVerifier from "../helpers/passwordVerify";
 import User from "../models/user.model";
 import { IResponse } from "../types/response.type";
 
@@ -39,12 +42,45 @@ const registerService = async (data: RegisterProps): Promise<IResponse> => {
 };
 
 const loginService = async (data: LoginProps): Promise<IResponse> => {
-  // Implement your login logic here
+  const user = await User.findOne({ email: data?.email }).select(
+    "-createdAt -updatedAt -__v"
+  );
+  if (!user) {
+    return {
+      success: false,
+      message: "Email not found!",
+      data: null,
+    };
+  }
+  const isMatched = await passwordVerifier(data?.password, user.password);
+
+  if (!isMatched) {
+    return {
+      success: false,
+      message: "Invalid password!",
+      data: null,
+    };
+  }
+  const newData = {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+  };
+
+  const result = {
+    ...newData,
+    accessToken: await generateAccessToken({
+      payload: newData,
+      secretKey: envConfig.jwtPrivateKeyPath,
+      expiresIn: envConfig.jwtExpiration,
+    }),
+  };
+
   return {
-    success: false,
-    message: "Email already used before!",
-    data: null,
+    success: true,
+    message: "Login successful!",
+    data: result,
   };
 };
 
-export { registerService, loginService };
+export { loginService, registerService };
