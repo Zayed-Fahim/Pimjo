@@ -2,7 +2,7 @@ import { SignupTemplate } from "@/components/templates";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Rewgister | Task Nest",
+  title: "Register | Task Nest",
   description: "Register to your Task Nest account.",
   keywords: ["register, task Nest, account"],
 };

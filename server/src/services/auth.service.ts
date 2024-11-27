@@ -57,7 +57,7 @@ const loginService = async (data: LoginProps): Promise<IResponse> => {
   if (!isMatched) {
     return {
       success: false,
-      message: "Invalid password!",
+      message: "Incorrect password!",
       data: null,
     };
   }
@@ -69,11 +69,13 @@ const loginService = async (data: LoginProps): Promise<IResponse> => {
 
   const result = {
     ...newData,
-    accessToken: await generateAccessToken({
-      payload: newData,
-      secretKey: envConfig.jwtPrivateKeyPath,
-      expiresIn: envConfig.jwtExpiration,
-    }),
+    accessToken:
+      "Bearer " +
+      (await generateAccessToken({
+        payload: newData,
+        secretKey: envConfig.jwtPrivateKeyPath,
+        expiresIn: envConfig.jwtExpiration,
+      })),
   };
 
   return {
