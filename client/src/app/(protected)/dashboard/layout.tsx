@@ -1,6 +1,7 @@
 import Providers from "@/providers";
 import "../../globals.css";
 import localFont from "next/font/local";
+import { Navbar } from "@/components/organisms";
 
 const geistSans = localFont({
   src: "../../fonts/GeistVF.woff",
@@ -23,7 +24,10 @@ export default function DashboardLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <Navbar />
+          <main className="max-w-7xl mx-auto">{children}</main>
+        </Providers>
       </body>
     </html>
   );

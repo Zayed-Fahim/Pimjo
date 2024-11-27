@@ -160,7 +160,7 @@ const LoginForm = () => {
             </>
           )}
           <div className="flex items-center gap-x-2 group">
-            <p>Don&apos;t have an account?</p>
+            <p className="text-sm">Don&apos;t have an account?</p>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 duration-300" />
           </div>
         </div>

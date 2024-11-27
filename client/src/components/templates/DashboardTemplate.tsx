@@ -1,5 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const DashboardTemplate = () => {
@@ -7,10 +8,10 @@ const DashboardTemplate = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
+    if (!session && status === "unauthenticated") {
       router.push("/login");
     }
-  }, [status, router]);
+  }, [status, session, router]);
 
   return <h1>This is the dashboard template</h1>;
 };

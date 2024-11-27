@@ -1,3 +1,4 @@
+import { DashboardTemplate } from "@/components/templates";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const Dashboard = () => {
-  return <h1>Dashboard</h1>;
+  return <DashboardTemplate />;
 };
 
 export default Dashboard;
