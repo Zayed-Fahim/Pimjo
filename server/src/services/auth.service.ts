@@ -73,7 +73,7 @@ const loginService = async (data: LoginProps): Promise<IResponse> => {
       "Bearer " +
       (await generateAccessToken({
         payload: newData,
-        secretKey: envConfig.jwtPrivateKeyPath,
+        secretKey: envConfig.jwtSecret,
         expiresIn: envConfig.jwtExpiration,
       })),
   };

@@ -13,6 +13,8 @@ const DashboardTemplate = () => {
     }
   }, [status, session, router]);
 
+  if (status === "unauthenticated") return null;
+
   return <h1>This is the dashboard template</h1>;
 };
 
