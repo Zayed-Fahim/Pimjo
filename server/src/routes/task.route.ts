@@ -3,6 +3,7 @@ import {
   gettingSingleTaskController,
   taskCreationController,
   taskGettingController,
+  taskUpdatingController,
 } from "../controllers/task.controller";
 import authorization from "../middlewares/authorization";
 
@@ -16,7 +17,7 @@ router
 router
   .route("/:id")
   .get(authorization, gettingSingleTaskController)
-  .put()
+  .put(authorization, taskUpdatingController)
   .delete();
 
 export default router;

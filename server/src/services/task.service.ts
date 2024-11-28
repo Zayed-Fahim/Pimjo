@@ -78,4 +78,37 @@ const gettingSingleTaskService = async (
   };
 };
 
-export { taskCreationService, taskGettingService, gettingSingleTaskService };
+const taskUpdatiingService = async (
+  data: any,
+  user: any,
+  id: string
+): Promise<IResponse> => {
+  const isTaskExist = await Task.exists({
+    $and: [{ _id: id }, { userId: user?._id }],
+  });
+
+  if (!isTaskExist) {
+    return {
+      success: false,
+      message: "Unauthorized task access!",
+      data: null,
+    };
+  }
+
+  const updatedTask = await Task.findByIdAndUpdate(id, data, {
+    new: true,
+  }).select("-__v -userId");
+
+  return {
+    success: true,
+    message: "Task updated successfully!",
+    data: updatedTask,
+  };
+};
+
+export {
+  taskCreationService,
+  taskGettingService,
+  gettingSingleTaskService,
+  taskUpdatiingService,
+};
