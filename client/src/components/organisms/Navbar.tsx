@@ -35,7 +35,7 @@ const Navbar = () => {
     <div className="border-b border-zinc-700">
       <div className="max-w-7xl mx-auto py-5 flex items-center">
         <div className="flex w-full justify-between items-center">
-          <Link href="/dashboard/me">
+          <Link href="/me">
             <div className="text-foreground font-semibold text-xl tracking-tight flex items-center gap-2">
               <Mouse className="w-6 h-6" />
               <span>Task Nest</span>

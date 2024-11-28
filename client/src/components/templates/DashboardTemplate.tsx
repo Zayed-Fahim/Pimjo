@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import Tasks from "../organisms/Tasks";
 
 const DashboardTemplate = () => {
   const router = useRouter();
@@ -13,9 +14,11 @@ const DashboardTemplate = () => {
     }
   }, [status, session, router]);
 
+  console.log(session?.accessToken);
+
   if (status === "unauthenticated") return null;
 
-  return <h1>This is the dashboard template</h1>;
+  return <Tasks />;
 };
 
 export default DashboardTemplate;

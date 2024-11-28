@@ -53,4 +53,29 @@ const taskGettingService = async (data: any): Promise<IResponse> => {
   };
 };
 
-export { taskCreationService, taskGettingService };
+const gettingSingleTaskService = async (
+  id: string,
+  user: any
+): Promise<IResponse> => {
+  const isTaskExist = await Task.exists({
+    $and: [{ _id: id }, { userId: user?._id }],
+  });
+
+  if (!isTaskExist) {
+    return {
+      success: false,
+      message: "Unauthorized task access!",
+      data: null,
+    };
+  }
+
+  const task = await Task.findById(id).select("-__v -userId");
+
+  return {
+    success: true,
+    message: "Retrieval successfull!",
+    data: task,
+  };
+};
+
+export { taskCreationService, taskGettingService, gettingSingleTaskService };

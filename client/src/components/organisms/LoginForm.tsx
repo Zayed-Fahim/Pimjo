@@ -84,7 +84,7 @@ const LoginForm = () => {
         });
         setIsLoading(false);
         reset();
-        setTimeout(() => router.push("/dashboard/me"), 1000);
+        setTimeout(() => router.push("/me"), 1000);
       }
     } catch (error) {
       if (error instanceof Error) {

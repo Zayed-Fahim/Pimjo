@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import {
+  gettingSingleTaskController,
   taskCreationController,
   taskGettingController,
 } from "../controllers/task.controller";
@@ -12,6 +13,10 @@ router
   .post(authorization, taskCreationController)
   .get(authorization, taskGettingController);
 
-router.route("/:id").get().put().delete();
+router
+  .route("/:id")
+  .get(authorization, gettingSingleTaskController)
+  .put()
+  .delete();
 
 export default router;

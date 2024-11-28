@@ -10,7 +10,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/dashboard",
-        destination: "/dashboard/me",
+        destination: "/me",
+        permanent: true,
+      },
+      {
+        source: "/dashboard/me",
+        destination: "/me",
         permanent: true,
       },
     ];

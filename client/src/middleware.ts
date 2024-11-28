@@ -11,7 +11,7 @@ export default auth(async (req) => {
   );
 
   if (isLoggedIn && nextUrl.pathname === LOGIN) {
-    return NextResponse.redirect(new URL("/dashboard/me", nextUrl));
+    return NextResponse.redirect(new URL("/me", nextUrl));
   }
 
   if (!isLoggedIn && !isPublicPath) {
@@ -24,5 +24,5 @@ export default auth(async (req) => {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*,", "/login"],
+  matcher: ["/me/:path*,", "/login"],
 };
