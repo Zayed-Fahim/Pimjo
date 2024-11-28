@@ -6,7 +6,7 @@ type FormFieldProps<T extends FieldValues> = {
   labelClassname?: string;
   htmlFor: string;
   text: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "number" | "datetime-local" | "date";
   name: Path<T>;
   id: string;
   inputClassName?: string;

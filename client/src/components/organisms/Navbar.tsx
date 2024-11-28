@@ -2,38 +2,20 @@
 import { logout } from "@/actions/authAction";
 import { Mouse, User } from "@/constant";
 import { useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
 import { Button, Link } from "@/components/atoms";
+import { Popover } from "@/components/molecules";
 
 const Navbar = () => {
-  const { data: session } = useSession();
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const { data: session, status } = useSession();
 
   let username = session?.user?.username;
   if (username && username.includes("_")) {
     username = username.split("_").join(" ");
   }
 
-  const togglePopover = () => setIsPopoverOpen((prev) => !prev);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popoverRef.current &&
-        !popoverRef.current.contains(event.target as Node)
-      ) {
-        setIsPopoverOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
     <div className="border-b border-zinc-700">
-      <div className="max-w-7xl mx-auto py-5 flex items-center">
+      <div className="max-w-full px-5 md:px-0 md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto py-5 flex items-center">
         <div className="flex w-full justify-between items-center">
           <Link href="/me">
             <div className="text-foreground font-semibold text-xl tracking-tight flex items-center gap-2">
@@ -42,25 +24,29 @@ const Navbar = () => {
             </div>
           </Link>
 
-          <div className="relative flex gap-x-3 items-center" ref={popoverRef}>
-            {username && (
+          <div className="relative flex gap-x-3 items-center">
+            {status === "loading" ? (
+              <div className="h-6 w-[200px] animate-pulse bg-zinc-800 rounded" />
+            ) : (
               <p className="transition-all duration-1000 ease-in-out">
-                Welcome, <span className="font-semibold">{username}</span>
+                Welcome,{" "}
+                <span className="text-sm md:text-base md:font-semibold">
+                  {username}
+                </span>
               </p>
             )}
 
-            <User className="w-8 h-8 cursor-pointer" onClick={togglePopover} />
-
-            {isPopoverOpen && (
-              <div className="absolute right-0 top-10 bg-white text-black w-[160px] rounded-sm py-2 shadow-md z-10">
-                <Button
-                  onClick={() => logout()}
-                  className="w-full px-4 py-1 z-[12] border border-t-zinc-200 hover:bg-zinc-100 border-b-zinc-200"
-                >
-                  Logout
-                </Button>
-              </div>
-            )}
+            <Popover
+              trigger={<User className="w-8 h-8 cursor-pointer" />}
+              className="right-0 top-10 border border-zinc-800 w-[160px] shadow-xl rounded-sm"
+            >
+              <Button
+                onClick={() => logout()}
+                className="w-full px-4 py-2.5 hover:bg-zinc-900"
+              >
+                Logout
+              </Button>
+            </Popover>
           </div>
         </div>
       </div>

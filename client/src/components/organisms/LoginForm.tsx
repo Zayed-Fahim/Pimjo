@@ -1,7 +1,7 @@
 "use client";
 import { credentialsLogin } from "@/actions/authAction";
 import { Button, Link, Loader, Message } from "@/components/atoms";
-import { FormField, PasswordFormField } from "@/components/molecules";
+import { InputFormField, PasswordFormField } from "@/components/molecules";
 import { ArrowRight } from "@/constant";
 import fetcher from "@/utils/fetcher";
 import { joiResolver } from "@hookform/resolvers/joi";
@@ -112,7 +112,7 @@ const LoginForm = () => {
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <FormField
+        <InputFormField
           htmlFor="email"
           text="Email"
           type="email"
@@ -177,7 +177,7 @@ const LoginForm = () => {
           >
             <div className="flex justify-center items-center gap-x-5">
               <p>Log in</p>
-              {isLoading && <Loader />}
+              {isLoading && <Loader className="border-black"/>}
             </div>
           </Button>
         </div>

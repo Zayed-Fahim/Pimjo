@@ -26,7 +26,9 @@ export default function DashboardLayout({
       >
         <Providers>
           <Navbar />
-          <main className="max-w-7xl mx-auto">{children}</main>
+          <main className="max-w-full px-5 md:px-0 md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

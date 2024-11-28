@@ -2,7 +2,13 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import Tasks from "../organisms/Tasks";
+import { Tasks } from "@/components/organisms";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Task management dashboard",
+};
 
 const DashboardTemplate = () => {
   const router = useRouter();
@@ -13,8 +19,6 @@ const DashboardTemplate = () => {
       router.push("/login");
     }
   }, [status, session, router]);
-
-  console.log(session?.accessToken);
 
   if (status === "unauthenticated") return null;
 

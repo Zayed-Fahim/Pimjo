@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   keywords: ["dashboard, task Nest, tasks"],
 };
 
-const Dashboard = () => {
+const DashboardPage = () => {
   return <DashboardTemplate />;
 };
 
-export default Dashboard;
+export default DashboardPage;

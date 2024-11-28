@@ -2,7 +2,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 
 type InputProps = {
   id: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "number" | "datetime-local" | "date";
   placeholder?: string;
   inputClassName?: string;
   register: UseFormRegisterReturn;

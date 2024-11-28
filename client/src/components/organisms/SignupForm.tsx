@@ -3,7 +3,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormField, PasswordFormField } from "@/components/molecules";
+import { InputFormField, PasswordFormField } from "@/components/molecules";
 import { Button, Link, Loader, Message } from "@/components/atoms";
 import { nameRegex, passwordRegex } from "@/constant/validation";
 import { ArrowRight } from "@/constant";
@@ -130,7 +130,7 @@ const SignupForm = () => {
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <FormField
+        <InputFormField
           htmlFor="username"
           text="Username"
           type="text"
@@ -147,7 +147,7 @@ const SignupForm = () => {
         )}
       </div>
       <div>
-        <FormField
+        <InputFormField
           htmlFor="email"
           text="Email"
           type="email"
@@ -231,7 +231,7 @@ const SignupForm = () => {
           >
             <div className="flex justify-center items-center gap-x-5">
               <p>Register</p>
-              {isLoading && <Loader />}
+              {isLoading && <Loader className="border-black"/>}
             </div>
           </Button>
         </div>

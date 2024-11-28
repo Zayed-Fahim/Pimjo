@@ -20,3 +20,10 @@ export const parseDateTime = (dateString: string): string => {
 
   return date.toLocaleString("en-US", options);
 };
+
+export const formatDateForInput = (date: string | Date | undefined) => {
+  if (!date) return "";
+  const taskDueDate = new Date(date);
+  taskDueDate.setHours(taskDueDate.getHours() + 6);
+  return taskDueDate.toISOString().slice(0, 16) as string;
+};

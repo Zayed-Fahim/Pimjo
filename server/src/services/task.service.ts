@@ -18,7 +18,7 @@ const taskCreationService = async (
   const newTask = await Task.create(data);
   return {
     success: true,
-    message: "Task created successfully!",
+    message: "Task creation successful!",
     data: newTask,
   };
 };
@@ -48,7 +48,7 @@ const taskGettingService = async (data: any): Promise<IResponse> => {
 
   return {
     success: true,
-    message: "Retrieval successfull!",
+    message: "Retrieval successful!",
     data: tasks,
   };
 };
@@ -73,7 +73,7 @@ const gettingSingleTaskService = async (
 
   return {
     success: true,
-    message: "Retrieval successfull!",
+    message: "Retrieval successful!",
     data: task,
   };
 };
@@ -106,9 +106,35 @@ const taskUpdatiingService = async (
   };
 };
 
+const taskDeletingService = async (
+  id: string,
+  user: any
+): Promise<IResponse> => {
+  const isTaskExist = await Task.exists({
+    $and: [{ _id: id }, { userId: user?._id }],
+  });
+
+  if (!isTaskExist) {
+    return {
+      success: false,
+      message: "Unauthorized task access!",
+      data: null,
+    };
+  }
+
+  await Task.findByIdAndDelete(id);
+
+  return {
+    success: true,
+    message: "Task deletion successful!",
+    data: null,
+  };
+};
+
 export {
   taskCreationService,
   taskGettingService,
   gettingSingleTaskService,
   taskUpdatiingService,
+  taskDeletingService,
 };

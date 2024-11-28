@@ -1,11 +1,7 @@
-import React from "react";
+import { TaskTemplate } from "@/components/templates";
 
-const page = ({ params }: { params: { slug: string } }) => {
-  return (
-    <div>
-      <h1 className="text-white">{params.slug}</h1>
-    </div>
-  );
+const TaskPage = () => {
+  return <TaskTemplate />;
 };
 
-export default page;
+export default TaskPage;

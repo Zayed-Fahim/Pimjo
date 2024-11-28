@@ -13,6 +13,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     CredentialProvider({
       name: "Credentials",
       type: "credentials",
+
       authorize: async function (credentials: any) {
         if (!credentials) return null;
         const user = { ...credentials };
