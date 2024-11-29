@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # Frontend Service (Next.js)
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - AUTH_SECRET=${AUTH_SECRET}
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  # Backend Service (Express.js)
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - JWT_SECRET=${JWT_SECRET}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

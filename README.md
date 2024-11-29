@@ -72,15 +72,57 @@ Start the frontend server
   yarn start:dev
 ```
 
-## Environment Variables
+## Run On Docker
 
-To run this project, you will need to add the following environment variables to your .env file
+Clone the project
+
+```bash
+  git clone https://github.com/Zayed-Fahim/Pimjo
+```
+
+Go to the project directory
+
+```bash
+  cd Pimjo
+```
+
+Start server
+
+```bash
+  docker-compose up --build --force-recreate
+```
+
+## Environment Variables for Local Development
+
+To run this project, create two separate .env file, locate them in root of client folder and server folder. then you will need to add the following environment variables to your separate .env file
 
 ## Client side
 
 `AUTH_SECRET`
 
 ## Server side
+
+`PORT`
+
+`NODE_ENV`
+
+`DB_NAME`
+
+`DB_USER`
+
+`DB_PASSWORD`
+
+`JWT_SECRET`
+
+`JWT_EXPIRES_IN`
+
+## Environment Variables for Docker
+
+To run this project, you need to create .env file at the same location of docker-compose.yaml file will. After this add all the following environment variables
+
+`NODE_ENV`
+
+`AUTH_SECRET`
 
 `PORT`
 

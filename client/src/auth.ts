@@ -14,9 +14,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: "Credentials",
       type: "credentials",
 
-      authorize: async function (credentials: any) {
+      authorize: async function (
+        credentials: Partial<Record<string, unknown>>
+      ) {
         if (!credentials) return null;
-        const user = { ...credentials };
+        const user = {
+          _id: credentials?._id as string,
+          username: credentials?.username as string,
+          accessToken: credentials?.accessToken as string,
+          email: credentials?.email as string,
+        };
         return user;
       },
     }),

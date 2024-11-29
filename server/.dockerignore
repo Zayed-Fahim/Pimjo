@@ -1,0 +1,24 @@
+# Ignore node_modules to avoid unnecessary copying of dependencies
+node_modules
+
+# Ignore any development environment files
+.env.local
+.env.example
+.env
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+
+# Ignore test files
+tests/
+__tests__
+
+# Ignore Docker-related files
+Dockerfile*
+.dockerignore
+
+# Ignore any IDE/editor-specific files
+.vscode
+.idea
