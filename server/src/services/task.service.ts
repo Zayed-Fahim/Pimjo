@@ -2,7 +2,7 @@ import Task from "../models/task.model";
 import User from "../models/user.model";
 import { IResponse } from "../types/response.type";
 import { TaskCreationProps } from "../types/task.type";
-import mongoose from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 
 const taskCreationService = async (
   data: TaskCreationProps
@@ -22,7 +22,10 @@ const taskCreationService = async (
     data: newTask,
   };
 };
-const taskGettingService = async (data: any): Promise<IResponse> => {
+const taskGettingService = async (
+  data: any,
+  filtersOrSorting: any
+): Promise<IResponse> => {
   const { ObjectId } = mongoose.Types;
 
   if (!ObjectId.isValid(data?._id)) {
@@ -32,6 +35,7 @@ const taskGettingService = async (data: any): Promise<IResponse> => {
       data: null,
     };
   }
+
   const isUserExist = await User.exists({ _id: data?._id });
 
   if (!isUserExist) {
@@ -42,9 +46,33 @@ const taskGettingService = async (data: any): Promise<IResponse> => {
     };
   }
 
-  const tasks = await Task.find({ userId: data?._id })
-    .sort({ createdAt: -1 })
-    .select("-__v -userId");
+  const { status, dueDate, priority, sortBy } = filtersOrSorting;
+
+  let query: Record<string, any> = { userId: data?._id };
+  let sort: { [key: string]: SortOrder } = { createdAt: -1 };
+
+  if (status) {
+    query.status = status;
+  }
+
+  if (dueDate) {
+    query.dueDate = { $eq: new Date(dueDate) };
+  }
+  if (priority) {
+    query.priority = priority;
+  }
+
+  if (sortBy && sortBy === "newest") {
+    sort = {
+      createdAt: -1,
+    };
+  } else if (sortBy && sortBy === "oldest") {
+    sort = {
+      createdAt: 1,
+    };
+  }
+
+  const tasks = await Task.find(query).sort(sort).select("-__v -userId");
 
   return {
     success: true,

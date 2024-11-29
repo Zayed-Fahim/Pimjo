@@ -35,7 +35,7 @@ const taskGettingController = async (
   next: NextFunction
 ) => {
   try {
-    const result = await taskGettingService(req?.user);
+    const result = await taskGettingService(req?.user, req?.query);
 
     res.status(result.success ? 200 : 400).json({
       message: result.message,

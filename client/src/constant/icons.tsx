@@ -204,3 +204,53 @@ export const Back = (props: ComponentProps<"svg">) => (
     </g>
   </svg>
 );
+
+export const Filter = (props: ComponentProps<"svg">) => (
+  <svg
+    fill="#fff"
+    viewBox="0 -0.08 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+    stroke="#fff"
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <path d="M14.32,6.87H5.68a.38.38,0,0,0-.38.38.37.37,0,0,0,.38.37h8.64a.37.37,0,0,0,.38-.37A.38.38,0,0,0,14.32,6.87Z"></path>
+      <path d="M12.32,9.56H7.68a.38.38,0,1,0,0,.75h4.64a.38.38,0,1,0,0-.75Z"></path>
+      <path d="M11.32,12.22H8.68a.38.38,0,1,0,0,.75h2.64a.38.38,0,1,0,0-.75Z"></path>
+    </g>
+  </svg>
+);
+
+export const Sort = (props: ComponentProps<"svg">) => (
+  <svg
+    viewBox="0 0 24 24"
+    role="img"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-labelledby="sortingIconTitle"
+    stroke="#fff"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    fill="none"
+    color="#000000"
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <title id="sortingIconTitle">Sorting</title>
+      <polyline points="8 8.333 12 4.333 16 8.333 16 8.333"></polyline>
+      <polyline points="16 15.667 12 19.667 8 15.667 8 15.667"></polyline>
+    </g>
+  </svg>
+);

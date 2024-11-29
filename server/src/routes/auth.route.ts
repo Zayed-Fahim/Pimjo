@@ -3,6 +3,7 @@ import {
   loginController,
   registerController,
 } from "../controllers/auth.controller";
+import { authRateLimiter } from "../utils/rateLimiter";
 
 const router: Router = express.Router();
 
@@ -76,7 +77,7 @@ const router: Router = express.Router();
  *       400:
  *         description: Validation error or user already exists.
  */
-router.route("/register").post(registerController);
+router.route("/register").post(authRateLimiter, registerController);
 
 /**
  * @openapi
@@ -112,6 +113,6 @@ router.route("/register").post(registerController);
  *       401:
  *         description: Invalid email or password.
  */
-router.route("/login").post(loginController);
+router.route("/login").post(authRateLimiter, loginController);
 
 export default router;

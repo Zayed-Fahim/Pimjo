@@ -7,6 +7,11 @@ import {
   taskUpdatingController,
 } from "../controllers/task.controller";
 import authorization from "../middlewares/authorization";
+import {
+  rateLimiterForGlobalTask,
+  rateLimiterForTaskCreation,
+  rateLimiterForTaskGetting,
+} from "../utils/rateLimiter";
 
 const router: Router = express.Router();
 
@@ -102,18 +107,61 @@ const router: Router = express.Router();
  *       500:
  *         description: Server error
  */
-router.route("/").post(authorization, taskCreationController);
+router
+  .route("/")
+  .post(authorization, rateLimiterForTaskCreation, taskCreationController);
 
 /**
  * @openapi
  * /api/v1/tasks:
  *   get:
  *     summary: Get all tasks for the authorized user
- *     description: This endpoint retrieves all tasks for the currently authenticated user based on the provided authorization token.
+ *     description: This endpoint retrieves all tasks for the currently authenticated user based on the provided authorization token. Filters and sorting options are available to refine the results.
  *     tags:
  *       - Tasks
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - name: status
+ *         in: query
+ *         description: Filter tasks by status.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - Pending
+ *             - In Progress
+ *             - Completed
+ *           example: "Pending"
+ *       - name: dueDate
+ *         in: query
+ *         description: Filter tasks with a due date less than or equal to the specified date.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-11-30"
+ *       - name: priority
+ *         in: query
+ *         description: Filter tasks by priority.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - High
+ *             - Medium
+ *             - Low
+ *           example: "High"
+ *       - name: sortBy
+ *         in: query
+ *         description: Sort tasks by creation date.
+ *         required: false
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - newest
+ *             - oldest
+ *           example: "newest"
  *     responses:
  *       200:
  *         description: List of tasks for the authorized user
@@ -135,9 +183,11 @@ router.route("/").post(authorization, taskCreationController);
  *       401:
  *         description: Unauthorized. The user needs to provide a valid token.
  *       500:
- *         description: Server error
+ *         description: Internal Server error
  */
-router.route("/").get(authorization, taskGettingController);
+router
+  .route("/")
+  .get(authorization, rateLimiterForTaskGetting, taskGettingController);
 
 /**
  * @openapi
@@ -195,7 +245,9 @@ router.route("/").get(authorization, taskGettingController);
  *       500:
  *         description: Internal server error.
  */
-router.route("/:id").get(authorization, gettingSingleTaskController);
+router
+  .route("/:id")
+  .get(authorization, rateLimiterForGlobalTask, gettingSingleTaskController);
 
 /**
  * @openapi
@@ -283,7 +335,9 @@ router.route("/:id").get(authorization, gettingSingleTaskController);
  *         description: Internal server error.
  */
 
-router.route("/:id").put(authorization, taskUpdatingController);
+router
+  .route("/:id")
+  .put(authorization, rateLimiterForGlobalTask, taskUpdatingController);
 
 /**
  * @openapi
@@ -312,6 +366,8 @@ router.route("/:id").put(authorization, taskUpdatingController);
  *       500:
  *         description: Internal server error.
  */
-router.route("/:id").delete(authorization, taskDeletingController);
+router
+  .route("/:id")
+  .delete(authorization, rateLimiterForGlobalTask, taskDeletingController);
 
 export default router;

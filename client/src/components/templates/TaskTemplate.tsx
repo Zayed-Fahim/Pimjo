@@ -1,12 +1,12 @@
 "use client";
 import fetcher from "@/utils/fetcher";
-import { getPriorityStyle, getStatusStyle } from "@/utils/getStyles";
 import { parseDateTime } from "@/utils/parseDateTime";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Loader } from "@/components/atoms";
 import { Back } from "@/constant";
+import { getPriorityStyle, getStatusStyle } from "../molecules/Task";
 
 type TaskProps = {
   _id: string;
