@@ -112,6 +112,8 @@ To run this project, create two separate .env file, locate them in root of clien
 
 `DB_PASSWORD`
 
+`DB_HOST`
+
 `JWT_SECRET`
 
 `JWT_EXPIRES_IN`
@@ -133,6 +135,8 @@ To run this project, you need to create .env file at the same location of docker
 `DB_USER`
 
 `DB_PASSWORD`
+
+`DB_HOST`
 
 `JWT_SECRET`
 
